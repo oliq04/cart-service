@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cart-service-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cart-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d cart-db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: product-service-pgadmin
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5051:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  cart-service:
+    build:
+      context: .
+      dockerfile: cart-service
+    container_name: cart-service-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/cartdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8081:8081"
+
+volumes:
+  pg_data:
+  pgadmin_data:

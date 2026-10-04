@@ -1,6 +1,12 @@
+package com.example.feign;
+
+import com.example.*;
+import com.example.mapper.ProductMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class ProductFeignClientImpl implements ProductFeignClientProvider {
 
     private final ProductFeignClient productFeignClient;

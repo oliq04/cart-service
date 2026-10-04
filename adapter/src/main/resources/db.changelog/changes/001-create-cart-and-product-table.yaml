@@ -1,0 +1,108 @@
+
+databaseChangeLog:
+
+  - changeSet:
+      id: 0
+      author: oliq04
+      changes:
+        - createTable:
+            tableName: CART_ENTITY
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+  - changeSet:
+      id: 1
+      author: oliq04
+      changes:
+        - createTable:
+            tableName: CONFIGURED_PRODUCT
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: price
+                  type: decimal(19,2)
+              - column:
+                  name: type
+                  type: varchar(64)
+              - column:
+                  name: quantity
+                  type: bigint
+              - column:
+                  name: battery
+                  type: varchar(128)
+              - column:
+                  name: color
+                  type: varchar(64)
+              - column:
+                  name: processor
+                  type: varchar(128)
+              - column:
+                  name: ram
+                  type: varchar(64)
+
+  - changeSet:
+      id: 2
+      author: oliq04
+      changes:
+        - createTable:
+            tableName: ACCESSORIES
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_accessories_product
+                    references: CONFIGURED_PRODUCT(id)
+              - column:
+                  name: name
+                  type: varchar(255)
+
+  - changeSet:
+      id: 3
+      author: oliq04
+      changes:
+        - createTable:
+            tableName: CART_PRODUCT
+            columns:
+              - column:
+                  name: cart_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cart_product_cart
+                    references: CART_ENTITY(id)
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cart_product_product
+                    references: CONFIGURED_PRODUCT(id)
+        - addPrimaryKey:
+            tableName: CART_PRODUCT
+            columnNames: cart_id, product_id
+            constraintName: pk_cart_product
+

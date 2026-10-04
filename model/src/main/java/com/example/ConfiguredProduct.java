@@ -1,3 +1,5 @@
+package com.example;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +18,7 @@ public class ConfiguredProduct {
     private Long quantity;
     private String battery;
     private String color;
-    private List<String> accessories;
+    private List<Accessory> accessories;
     private String processor;
     private String ram;
 }
