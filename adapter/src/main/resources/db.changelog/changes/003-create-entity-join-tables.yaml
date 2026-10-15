@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-entity-join-tables
+      author: oliq04
+      changes:
+        - createTable:
+            tableName: cart_entity_cart_items
+            columns:
+              - column:
+                  name: cart_entity_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cart_items_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: cart_entity_cart_items
+            columnNames: cart_entity_id, cart_items_id
+            constraintName: pk_cart_entity_cart_items
+
+        - addForeignKeyConstraint:
+            baseTableName: cart_entity_cart_items
+            baseColumnNames: cart_entity_id
+            constraintName: fk_cart_entity_cart_items_cart
+            referencedTableName: cart_entity
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            baseTableName: cart_entity_cart_items
+            baseColumnNames: cart_items_id
+            constraintName: fk_cart_entity_cart_items_item
+            referencedTableName: cart_item_entity
+            referencedColumnNames: id
+
+        - createTable:
+            tableName: cart_item_entity_product_configuration_ids
+            columns:
+              - column:
+                  name: cart_item_entity_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_configuration_ids_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: cart_item_entity_product_configuration_ids
+            columnNames: cart_item_entity_id, product_configuration_ids_id
+            constraintName: pk_cart_item_entity_product_configuration_ids
+
+        - addForeignKeyConstraint:
+            baseTableName: cart_item_entity_product_configuration_ids
+            baseColumnNames: cart_item_entity_id
+            constraintName: fk_cart_item_entity_product_configuration_ids_item
+            referencedTableName: cart_item_entity
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            baseTableName: cart_item_entity_product_configuration_ids
+            baseColumnNames: product_configuration_ids_id
+            constraintName: fk_cart_item_entity_product_configuration_ids_configuration
+            referencedTableName: product_configuration_id_entity
+            referencedColumnNames: id

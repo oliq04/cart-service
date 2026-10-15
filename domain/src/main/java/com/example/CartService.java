@@ -2,6 +2,7 @@ package com.example;
 
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,7 @@ public class CartService {
     private final ProductFeignClientProvider productFeignClient;
 
     public Cart createCart() {
-        Cart cart = new Cart(null, new ArrayList<>(), null);
+        Cart cart = new Cart(null, new ArrayList<>(), BigDecimal.ZERO);
         return cartRepository.save(cart);
     }
 
@@ -25,7 +26,7 @@ public class CartService {
         Product configuredProduct = productFeignClient.getConfiguredProduct(productConfigurationCommand);
         cart.addToCart(configuredProduct);
         cartRepository.save(cart);
-        return cart;
+        return showCart(id);
     }
 
     public Cart showCart(Long id) {

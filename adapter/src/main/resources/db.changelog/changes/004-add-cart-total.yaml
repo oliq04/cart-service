@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-add-cart-total
+      author: oliq04
+      changes:
+        - addColumn:
+            tableName: cart_entity
+            columns:
+              - column:
+                  name: total
+                  type: NUMERIC(19, 2)
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false

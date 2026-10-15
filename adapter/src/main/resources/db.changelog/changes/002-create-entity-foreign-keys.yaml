@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-entity-tables-and-foreign-keys
+      author: oliq04
+      changes:
+        - createTable:
+            tableName: cart_item_entity
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_cart_item_entity
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: BIGINT
+              - column:
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  name: cart_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: product_configuration_id_entity
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_product_configuration_id_entity
+                    nullable: false
+              - column:
+                  name: product_configuration_id
+                  type: BIGINT
+              - column:
+                  name: cart_item_entity_id
+                  type: BIGINT
+
+        - addForeignKeyConstraint:
+            baseTableName: cart_item_entity
+            baseColumnNames: cart_id
+            constraintName: fk_cart_item_entity_cart
+            referencedTableName: cart_entity
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            baseTableName: product_configuration_id_entity
+            baseColumnNames: cart_item_entity_id
+            constraintName: fk_product_configuration_id_entity_cart_item
+            referencedTableName: cart_item_entity
+            referencedColumnNames: id
