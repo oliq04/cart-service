@@ -1,12 +1,12 @@
 package com.example.mapper;
 
-import com.example.Accessory;
-import com.example.AccessoryDto;
 import com.example.Cart;
 import com.example.CartDto;
-import com.example.entity.AccessoriesEntity;
+import com.example.CartItem;
+import com.example.ProductDto;
 import com.example.entity.CartEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -16,7 +16,5 @@ public interface CartMapper {
     Cart toPojo(CartEntity cart);
     CartDto toDto(Cart cart);
     CartEntity toEntity(Cart cart);
-
-    List<AccessoriesEntity> toEntity(List<Accessory> accessory);
-    List<AccessoryDto> toDto(List<Accessory> accessories);
+    CartItem toCartItem(ProductDto product);
 }

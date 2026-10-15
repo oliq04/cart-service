@@ -20,7 +20,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: product-service-pgadmin
+    container_name: cart-service-pgadmin
     restart: unless-stopped
     depends_on:
       postgres:

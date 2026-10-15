@@ -1,24 +1,19 @@
 package com.example.mapper;
 
-import com.example.ConfiguredProductDto;
-import com.example.Product;
-import com.example.entity.ConfiguredProductEntity;
-import org.mapstruct.AfterMapping;
+import com.example.*;
+import com.example.entity.CartItemEntity;
+import com.example.entity.ProductConfigurationIdEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    Product toProduct(ConfiguredProductDto configuredProductDto);
-    @Mapping(target = "id", ignore = true)
-    ConfiguredProductEntity toConfiguredEntity(Product product);
+    Product toProduct(ProductDto productDto);
 
-    @AfterMapping
-    default void linkAccessories(@MappingTarget ConfiguredProductEntity product) {
-        if (product.getAccessories() != null) {
-            product.getAccessories().forEach(accessory -> accessory.setProductId(product));
-        }
-    }
+    @Mapping(target = "productId", source = "product.id")
+    CartItemEntity toCartItemEntity(CartItem cartItem);
+
+    @Mapping(target = "productConfigurationId", source = "id")
+    ProductConfigurationIdEntity toProductConfigurationIdEntity(ProductOption productOption);
 }

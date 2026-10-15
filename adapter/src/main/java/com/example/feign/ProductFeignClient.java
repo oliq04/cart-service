@@ -1,6 +1,5 @@
 package com.example.feign;
 
-import com.example.ConfiguredProductDto;
 import com.example.PageDto;
 import com.example.ProductConfigurationCommand;
 import com.example.ProductDto;
@@ -11,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Map;
+
 @FeignClient(name = "product")
 @Component
 public interface ProductFeignClient {
@@ -18,5 +20,7 @@ public interface ProductFeignClient {
     PageDto<ProductDto> getProducts(@RequestParam("page") int page, @RequestParam("size") int size);
 
     @PostMapping("/product/to-cart")
-    ConfiguredProductDto configuredProduct(@RequestBody ProductConfigurationCommand productConfigurationCommand);
+    ProductDto configuredProduct(@RequestBody ProductConfigurationCommand productConfigurationCommand);
+
+    List<ProductDto> getConfiguredProducts(@RequestBody Map<Long, List<Long>> productsWithConfigs);
 }

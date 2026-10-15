@@ -3,12 +3,10 @@ package com.example.repository;
 import com.example.Cart;
 import com.example.CartRepositoryProvider;
 import com.example.entity.CartEntity;
-import com.example.entity.ConfiguredProductEntity;
 import com.example.mapper.CartMapper;
 import com.example.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -26,11 +24,7 @@ public class CartPersistenceAdapter implements CartRepositoryProvider {
 
     @Override
     public Cart save(Cart cart) {
-        List<ConfiguredProductEntity> configuredProductEntities = cart.getProductList().stream()
-                .map(productMapper::toConfiguredEntity)
-                .toList();
         CartEntity cartEntity = cartMapper.toEntity(cart);
-        cartEntity.setProductList(configuredProductEntities);
         CartEntity savedCart = cartRepository.save(cartEntity);
         return cartMapper.toPojo(savedCart);
     }
