@@ -16,5 +16,6 @@ public class ProductDto {
     private PriceDto price;
     private String type;
     private Long quantity;
+    private boolean available;
     private List<ProductOptionDto> options;
 }
